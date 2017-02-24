@@ -154,6 +154,7 @@ public class MainFragment extends Fragment implements MainView {
 
     @Override
     public void setFact(String fact) {
+        if(fact!=null)
         text.setText(fact);
     }
 }

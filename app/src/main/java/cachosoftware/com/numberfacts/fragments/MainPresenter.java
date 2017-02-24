@@ -63,9 +63,11 @@ public class MainPresenter extends BasePresenter<MainView, MainIterator>{
             @Override
             public void onResponse(NumberFact response) {
                 if(mView!=null){
-                    mView.showLoading(false);
-                    mView.setFact(response.getText());
-                    mView.resetData();
+                    if(response!=null){
+                        mView.showLoading(false);
+                        mView.setFact(response.getText());
+                        mView.resetData();
+                    }
                 }
             }
             @Override
