@@ -51,7 +51,6 @@ public class MainFragment extends Fragment implements MainView {
         goDate = (Button) view.findViewById(R.id.go_date);
         launchCalendar = (Button) view.findViewById(R.id.launch_calendar);
         editText = (EditText) view.findViewById(R.id.et_numberfact);
-
     }
 
     @Override
@@ -60,6 +59,7 @@ public class MainFragment extends Fragment implements MainView {
         getUI(view);
         mPresenter = new MainPresenter(this);
 
+        text.setText(getString(R.string.welcome_text));
         goFact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,8 +79,8 @@ public class MainFragment extends Fragment implements MainView {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         mDay = dayOfMonth;
-                        mMonth = monthOfYear;
-                        editText.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear));
+                        mMonth = monthOfYear+1;
+                        editText.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear+1));
                     }
 
                 }, newCalendar.get(java.util.Calendar.YEAR), newCalendar.get(java.util.Calendar.MONTH), newCalendar.get(java.util.Calendar.DAY_OF_MONTH));

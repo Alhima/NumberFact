@@ -5,4 +5,5 @@
     <string name="math">Math</string>
     <string name="year">Year</string>
     <string name="fact">Fact</string>
+    <string name="welcome_text">Hi, this is NumberFacts. If you want to know something about a number, enter in the box above and click the button that you want. If you don\'t introduce any number in the box and click the button We will search a Random Fact for you! Enjoy!</string>
 </resources>
