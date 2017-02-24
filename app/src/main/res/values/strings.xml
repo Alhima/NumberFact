@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NumberFacts</string>
+    <string name="app_name">Number Facts</string>
     <string name="date">Date</string>
     <string name="select_date">Select Date</string>
     <string name="math">Math</string>
