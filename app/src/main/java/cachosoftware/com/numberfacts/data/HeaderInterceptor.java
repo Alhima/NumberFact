@@ -7,7 +7,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by a Monkey on 14/1/17.
+ * Created by Alvaro Hidalgo on 14/1/17.
  */
 
 public class HeaderInterceptor implements Interceptor {

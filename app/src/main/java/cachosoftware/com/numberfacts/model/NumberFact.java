@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by a Monkey on 14/1/17.
+ * Created by Alvaro Hidalgo on 14/1/17.
  */
 
 public class NumberFact {

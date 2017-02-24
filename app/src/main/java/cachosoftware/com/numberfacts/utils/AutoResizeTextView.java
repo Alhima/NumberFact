@@ -8,9 +8,6 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.TextView;
 
-/**
- * Created by a Monkey on 14/1/17.
- */
 public class AutoResizeTextView extends TextView {
 
     // Minimum text size for this text view

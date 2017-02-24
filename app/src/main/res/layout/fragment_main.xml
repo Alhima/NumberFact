@@ -9,10 +9,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:paddingBottom="60dp"
@@ -25,7 +28,7 @@
                 android:maxLines="5"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:background="@drawable/degradate_background"
+                android:background="@drawable/degradate_background_3"
                 htext:isAnimate="true"
                 android:padding="10dp"
                 android:layout_marginLeft="30dp"
@@ -34,8 +37,28 @@
                 android:layout_height="match_parent"
                 android:textColor="#FFFFFF" />
 
-        </LinearLayout>
+            <ProgressBar
+                android:id="@+id/loading"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
 
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
 
         <EditText
@@ -50,76 +73,65 @@
             android:layout_height="wrap_content"
             android:id="@+id/et_numberfact"/>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <LinearLayout
+            android:layout_height="55dp"
+            android:orientation="horizontal">
+            <Button
+                android:textColor="@color/white"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:orientation="horizontal">
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="Fact"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/degradate_background_2"
-                    android:id="@+id/go_numberfact"
-                    android:layout_height="match_parent" />
+                android:layout_weight="0.5"
+                android:text="@string/fact"
+                android:background="@drawable/degradate_background_2"
+                android:id="@+id/go_numberfact"
+                android:layout_height="match_parent" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="Year"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/degradate_background_2"
-                    android:id="@+id/go_yearfact"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="Math"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/degradate_background_2"
-                    android:id="@+id/go_mathfact"
-                    android:layout_height="match_parent" />
-            </LinearLayout>
-
-
-            <LinearLayout
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:orientation="horizontal">
+                android:layout_weight="0.5"
+                android:text="@string/year"
+                android:textColor="@color/white"
+                android:background="@drawable/degradate_background_2"
+                android:id="@+id/go_yearfact"
+                android:layout_height="match_parent" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="Select"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/degradate_background"
-                    android:id="@+id/launch_calendar"
-                    android:layout_height="match_parent" />
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_weight="0.5"
-                    android:text="Date"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/degradate_background_2"
-                    android:id="@+id/go_date"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-
+            <Button
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:text="@string/math"
+                android:background="@drawable/degradate_background_2"
+                android:id="@+id/go_mathfact"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
 
-</ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:text="@string/select_date"
+                android:background="@drawable/degradate_background"
+                android:id="@+id/launch_calendar"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_weight="0.5"
+                android:text="@string/date"
+                android:background="@drawable/degradate_background_2"
+                android:id="@+id/go_date"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
     </LinearLayout>
+
 
 </RelativeLayout>

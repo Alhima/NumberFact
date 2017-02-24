@@ -4,7 +4,7 @@ import cachosoftware.com.numberfacts.model.NumberFact;
 import retrofit2.Call;
 
 /**
- * Created by a Monkey on 14/1/17.
+ * Created by Alvaro Hidalgo on 14/1/17.
  */
 public interface NumberHandlerInterface {
     Call getTrivia(int number, final ServiceListener<NumberFact> listener);

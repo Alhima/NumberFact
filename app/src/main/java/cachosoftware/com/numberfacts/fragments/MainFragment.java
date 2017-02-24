@@ -10,24 +10,25 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import cachosoftware.com.numberfacts.R;
-import cachosoftware.com.numberfacts.data.DataHandler;
-import cachosoftware.com.numberfacts.data.ServiceListener;
-import cachosoftware.com.numberfacts.model.NumberFact;
 import cachosoftware.com.numberfacts.utils.AutoResizeTextView;
 
 /**
  * Created by a Monkey on 14/1/17.
  */
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements MainView {
 
     private AutoResizeTextView text;
 
 
-    private int day;
-    private int month;
+    private int mDay;
+    private ProgressBar loading;
+    private int mMonth;
+
+    private MainPresenter mPresenter;
 
     private Button goFact;
     private Button goYear;
@@ -36,15 +37,17 @@ public class MainFragment extends Fragment {
     private Button launchCalendar;
     private EditText editText;
 
-    public static MainFragment newInstance(){
+    public static MainFragment newInstance() {
         MainFragment f = new MainFragment();
         return f;
     }
-    private void getUI(View view){
+
+    private void getUI(View view) {
         text = (AutoResizeTextView) view.findViewById(R.id.text);
         goFact = (Button) view.findViewById(R.id.go_numberfact);
         goYear = (Button) view.findViewById(R.id.go_yearfact);
         goMath = (Button) view.findViewById(R.id.go_mathfact);
+        loading = (ProgressBar) view.findViewById(R.id.loading);
         goDate = (Button) view.findViewById(R.id.go_date);
         launchCalendar = (Button) view.findViewById(R.id.launch_calendar);
         editText = (EditText) view.findViewById(R.id.et_numberfact);
@@ -55,138 +58,45 @@ public class MainFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getUI(view);
-
-        text.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DataHandler.getInstance().getNumberHandler().getTrivia(1 + (int) (Math.random() * 200), new ServiceListener<NumberFact>() {
-                    @Override
-                    public void onResponse(NumberFact response) {
-                        if(response!=null){
-                            text.setText(response.getText());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Exception e) {
-
-                    }
-                });
-            }
-        });
-
-
+        mPresenter = new MainPresenter(this);
 
         goFact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(editText.getText().toString().isEmpty()){
-                    DataHandler.getInstance().getNumberHandler().getTrivia( new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-                }else{
-
-                    DataHandler.getInstance().getNumberHandler().getTrivia(Integer.valueOf(editText.getText().toString()), new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
+                if (isMyEtEmpty()) {
+                    mPresenter.getRandomTrivia();
+                } else {
+                    mPresenter.getTriviaFromNumer(Integer.valueOf(editText.getText().toString()));
                 }
-
-
             }
         });
-
-
 
         launchCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-               java.util.Calendar newCalendar = java.util.Calendar.getInstance();
+                java.util.Calendar newCalendar = java.util.Calendar.getInstance();
                 DatePickerDialog fromDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        day = dayOfMonth;
-                        month = monthOfYear;
+                        mDay = dayOfMonth;
+                        mMonth = monthOfYear;
                         editText.setText(String.valueOf(dayOfMonth) + "/" + String.valueOf(monthOfYear));
                     }
 
                 }, newCalendar.get(java.util.Calendar.YEAR), newCalendar.get(java.util.Calendar.MONTH), newCalendar.get(java.util.Calendar.DAY_OF_MONTH));
+                fromDatePickerDialog.show();
 
             }
         });
 
-
-
         goDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(day==0 && month ==0){
-                    DataHandler.getInstance().getNumberHandler().getDate(new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-
-                            if(response!=null){
-                                text.setText(response.getText());
-                                day=0;
-                                month=0;
-                            }
-
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-                }else{
-
-                    DataHandler.getInstance().getNumberHandler().getDate(day, month, new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                day=0;
-                                month=0;
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
+                if (mDay == 0 && mMonth == 0) {
+                    mPresenter.getRandomDate();
+                } else {
+                    mPresenter.getDate(mDay, mMonth);
                 }
-
-
-
-
-
             }
         });
 
@@ -194,95 +104,56 @@ public class MainFragment extends Fragment {
         goMath.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(editText.getText().toString().isEmpty()){
-                    DataHandler.getInstance().getNumberHandler().getMath( new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-                }else{
-
-                    DataHandler.getInstance().getNumberHandler().getMath(Integer.valueOf(editText.getText().toString()), new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
+                if (isMyEtEmpty()) {
+                    mPresenter.getRandomMath();
+                } else {
+                    mPresenter.getMathFact(Integer.valueOf(editText.getText().toString()));
                 }
-
-
             }
         });
 
         goYear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(editText.getText().toString().isEmpty()){
-                    DataHandler.getInstance().getNumberHandler().getYear( new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-                }else{
-
-                    DataHandler.getInstance().getNumberHandler().getYear(Integer.valueOf(editText.getText().toString()), new ServiceListener<NumberFact>() {
-                        @Override
-                        public void onResponse(NumberFact response) {
-                            if(response!=null){
-                                text.setText(response.getText());
-                                editText.setText("");
-                            }
-                        }
-
-                        @Override
-                        public void onError(Exception e) {
-
-                        }
-                    });
-
+                if (isMyEtEmpty()) {
+                    mPresenter.getRandomYear();
+                } else {
+                    mPresenter.getYearFact(Integer.valueOf(editText.getText().toString()));
                 }
-
             }
         });
 
-
-
     }
 
-
+    private boolean isMyEtEmpty() {
+        return editText.getText().toString().isEmpty();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void showLoading(boolean show) {
+        if (show) {
+            loading.setVisibility(View.VISIBLE);
+        } else {
+            loading.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void resetData() {
+        mDay = 0;
+        mMonth = 0;
+        editText.setText("");
+
+    }
+
+    @Override
+    public void setFact(String fact) {
+        text.setText(fact);
     }
 }

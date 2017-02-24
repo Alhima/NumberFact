@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">NumberFacts</string>
+    <string name="date">Date</string>
+    <string name="select_date">Select Date</string>
+    <string name="math">Math</string>
+    <string name="year">Year</string>
+    <string name="fact">Fact</string>
 </resources>
